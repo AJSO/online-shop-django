@@ -1,0 +1,49 @@
+{% extends 'shop/base.html' %}
+{% block title %}My Cart{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="col-md-8">
+    <h4>Items in my Cart.</h4>
+    <hr/>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>sn.</th>
+                <th>Product</th>
+                <th>Rate</th>
+                <th>Quantity</th>
+                <th>Subtotal</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for cart_pdt in cartitems.cartproduct_set.all %}
+        <tr>
+            <td scope="row">{{forloop.counter}}</td>
+            <td>{{cart_pdt.product.title}}</td>
+            <td>{{ cart_pdt.rate}}</td>
+            <td>{{ cart_pdt.quantity}}</td>
+            <td>{{ cart_pdt.subtotal}}</td>
+            <td><a href="{% url 'shop:managecart' cart_pdt.id %}?action=inc" class="btn btn-primary">+</a>
+            <a href="{% url 'shop:managecart' cart_pdt.id %}?action=dcr" class="btn btn-warning">-</a>
+            <a href="{% url 'shop:managecart' cart_pdt.id %}?action=del" class="btn btn-danger">X</a></td>
+        </tr>        
+        {% endfor %}
+        <tr>
+            <th colspan="4" class="text-right">Total:</th>
+            <th>Shs.{{cartitems.total_amount}}</th>
+            {% if cartitems.cartproduct_set.all %}
+            <th><a href="{% url 'shop:emptycart' %}">Empty Cart</a></th>
+            {% endif %}
+            {% if cartitems.cartproduct_set.all %}
+            <th><a href="{% url 'shop:checkout' %}" class="btn btn-info">CheckOut</a></th>
+            {% endif %}
+        </tr>
+        
+        </tbody>
+    </table>
+
+    </div>
+</div>
+{% endblock content %}
+        

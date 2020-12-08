@@ -1,0 +1,30 @@
+{% extends 'shop/base.html' %}
+{% block title %}All Products{% endblock %}
+{% block content %}
+<div class="container">
+
+    <h1>All Products</h1>
+    <hr/>
+    {% for cat in list_cat %}
+    <h4>{{cat.title}}</h4>
+    <hr/>
+    <div class="row">
+    {% comment %} reverse | each item under it's category {% endcomment %}
+    {% for items in cat.product_set.all  %} 
+    {% comment %} product foreign key under cat _set.all {% endcomment %}
+    <div class="col-md-3"> 
+       <div class="mt-4"> 
+            <h3><a href="{% url 'shop:products_detail' items.slug %}">{{items.title}}</a></h3>
+            <img src="{{items.image.url}}" alt='' class="img-fluid" style="height:250; object-fit:cover;" />
+            <br/>
+            <p class="mt-3">Price: Shs.<s>{{items.marked_price}}</s> Shs.{{items.selling_price}}</p>
+            <a href="{% url 'shop:addtocart' items.id %}" class="btn btn-primary">Add to Cart</a>
+        </div>
+    </div>
+    {% endfor %}
+
+    </div>
+    {% endfor %}
+</div>
+    {% endblock content %}
+        

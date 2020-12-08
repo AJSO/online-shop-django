@@ -1,0 +1,22 @@
+{% extends 'shop/base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<div class="container">
+<h1 class="text-center">Welcome to Shop</h1>
+<hr/>
+<div class="row mt-4">
+    {% for items in product_list %}
+    <div class="col-md-3"> 
+       <div class="mt-3"> 
+            <h3><a href="{% url 'shop:products_detail' items.slug %}">{{items.title}}</a></h3>
+            <img src="{{items.image.url}}" alt='' class="img-fluid" style="height:250; object-fit:cover;" />
+            <br/>
+            <p class="mt-3">Price: Shs.<s>{{items.marked_price}}</s> Shs.{{items.selling_price}}</p>
+            <a href="{% url 'shop:addtocart' items.id %}" class="btn btn-primary">Add to Cart</a>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+</div>
+{% endblock content %}
+       
