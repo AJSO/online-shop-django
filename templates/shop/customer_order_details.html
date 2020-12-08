@@ -1,0 +1,52 @@
+{% extends 'shop/base.html' %}
+{% block title %}Order Detail{% endblock %}
+{% block content %}
+<div class="container">
+<div class="row">
+    <div class="col-md-4 mx-auto">
+    <h3>Order Details.</h3><hr/>
+    <p><span class="font-weight-bold">Order ID:</span>#45753{{order_obj.id}}</p>
+    <p><span class="font-weight-bold">Order Status:</span>{{order_obj.order_status}}</p>
+    <p><span class="font-weight-bold">Ordered On:</span>{{order_obj.created_at}}({{order_obj.created_at|timesince}} ago)</p>
+    <h3>Shipping Information.</h3><hr/>
+    <p><span class="font-weight-bold">Ordered By:</span>{{order_obj.ordered_by}}</p>
+    <p><span class="font-weight-bold">Mobile:</span>{{order_obj.mobile}}</p>
+    <p><span class="font-weight-bold">Address:</span>{{order_obj.shipping_address}}</p>
+
+    </div>
+    <div class="col-md-8">
+    <h3>Ordered Items.</h3><hr/>
+    <table class="table">
+                <thead>
+                    <tr>
+                        <th>sn.</th>
+                        <th>Item</th>
+                        <th>Rate</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% comment %} Reverse Relationship {% endcomment %}
+                {% for order in order_obj.cart.cartproduct_set.all %}
+                <tr>
+                        <td scope="row">{{forloop.counter}}</td>
+                        <td><a href="">{{order.product.title}}</a></td>
+                        <td>{{order.rate}}</td>
+                        <td>{{order.quantity}}</td>
+                        <td>{{order.subtotal}}</td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                <th colspan="4" class="text-right">Total:</th>
+                <th>{{order_obj.total}}</th>
+                </tr>
+                </tbody>
+            </table>
+
+    </div>
+</div>
+    
+</div>
+{% endblock content %}
+        

@@ -1,6 +1,7 @@
 from django.http import request
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login,logout
+from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from .forms import CheckoutForm, CustomerRegistrationForm,CustomerLoginForm
 from .models import Cart, CartProduct, Category, Order, Product
@@ -303,10 +304,23 @@ class CustomerProfileView(EcomMixin,TemplateView):
         context['orders'] = orders
         return context
     
-
-class CustomerOrderDetailView(EcomMixin,TemplateView):
+# Template view can also be used.
+class CustomerOrderDetailView(DetailView):
     template_name="shop/customer_order_details.html"
+    model = Order
+    context_object_name = "order_obj"
+    # user must be logged in to view the order detail
+    def dispatch(self, request, *args, **kwargs):
+        user = request.user #user currently logged in
+        if user.is_authenticated and user.customer:
+            pass
+        else:
+            #redirect the user to profile after the login
+            return redirect("/login/?next=/profile/")
+
+        return super().dispatch(request, *args, **kwargs)
     
+
 class AboutView(EcomMixin,TemplateView):
     template_name="shop/about.html"
 

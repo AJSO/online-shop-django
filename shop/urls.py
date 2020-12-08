@@ -12,7 +12,7 @@ urlpatterns = [
 
     path('add_to_art_<int:pro_id>/', AddToCartView.as_view(), name='addtocart'),
     path('user_cart/', UserCartView.as_view(), name='mycart'),
-    path('manage_cart/<int:cart_pdt_id>', ManageCartView.as_view(), name='managecart'),
+    path('manage_cart/<int:cart_pdt_id>/', ManageCartView.as_view(), name='managecart'),
     path('empty_cart/', EmptyCartView.as_view(), name='emptycart'),
 
     path('checkout/', CheckoutView.as_view(), name='checkout'),
@@ -23,5 +23,5 @@ urlpatterns = [
 
 
     path('profile/', CustomerProfileView.as_view(), name='profile'),
-    path('profile/order-<int:pk>', CustomerOrderDetailView.as_view(), name='order_details'),
+    path('profile/order-<int:pk>/', CustomerOrderDetailView.as_view(), name='order_detail'),
 ]
