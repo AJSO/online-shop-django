@@ -1,12 +1,12 @@
-{% extends 'shop/base.html' %}
+{% extends 'admin/admin_base.html' %}
 {% load humanize %}
-{% block title %}Order Detail{% endblock %}
+{% block title %}Admin Dashboard | Order details{% endblock %}
 {% block content %}
 <div class="container">
-<div class="row">
+    <div class="row">
     <div class="col-md-4 mx-auto">
     <h3>Order Details.</h3><hr/>
-    <p><span class="font-weight-bold">Order ID:</span>#45753{{order_obj.id}}</p>
+    <p><span class="font-weight-bold">Order ID:</span>#Order_{{order_obj.id}}</p>
     <p><span class="font-weight-bold">Order Status:</span>{{order_obj.order_status}}</p>
     <p><span class="font-weight-bold">Ordered On:</span>{{order_obj.created_at}}({{order_obj.created_at|timesince}} ago)</p>
     <h3>Shipping Information.</h3><hr/>
@@ -32,7 +32,7 @@
                 {% for order in order_obj.cart.cartproduct_set.all %}
                 <tr>
                         <td scope="row">{{forloop.counter}}</td>
-                        <td><a href="{% url 'shop:products_detail' order.product.slug %}">{{order.product.title}}</a></td>
+                        <td><a href="#">{{order.product.title}}</a></td>
                         <td>{{order.rate}}</td>
                         <td>{{order.quantity}}</td>
                         <td>{{order.subtotal}}</td>
@@ -46,8 +46,6 @@
             </table>
 
     </div>
-</div>
-    
+    </div>
 </div>
 {% endblock content %}
-        

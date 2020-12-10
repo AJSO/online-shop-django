@@ -24,4 +24,8 @@ urlpatterns = [
 
     path('profile/', CustomerProfileView.as_view(), name='profile'),
     path('profile/order-<int:pk>/', CustomerOrderDetailView.as_view(), name='order_detail'),
+
+    path('admin_login/', AdminLoginView.as_view(), name='admin_login'),
+    path('admin_home/', AdminHomeView.as_view(), name='admin_home'),
+    path('admin_order/<int:pk>/', AdminOrderDetailView.as_view(), name='admin_order_detail'),
 ]

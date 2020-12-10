@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login,logout
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
-from .forms import CheckoutForm, CustomerRegistrationForm,CustomerLoginForm
-from .models import Cart, CartProduct, Category, Order, Product
+from .forms import CheckoutForm, CustomerRegistrationForm,CustomerLoginForm,AdminLoginForm
+from .models import Cart, CartProduct, Category, Customer, Order, Product, Admin
 from django.shortcuts import redirect, render
 from django.views.generic import View, TemplateView, CreateView
 from django.urls import reverse_lazy
@@ -264,7 +264,7 @@ class CustomerLoginView(FormView):
         pwd = form.cleaned_data["password"]
 
         user_val = authenticate(username=uname, password=pwd) 
-        if user_val is not None and user_val.customer:
+        if user_val is not None and Customer.objects.filter(user=user_val).exists():
             login(self.request, user_val)
         else:
             return render(self.request, self.template_name, 
@@ -288,7 +288,7 @@ class CustomerProfileView(EcomMixin,TemplateView):
 
     def dispatch(self, request, *args, **kwargs):
         user = request.user #user currently logged in
-        if user.is_authenticated and user.customer:
+        if user.is_authenticated and Customer.objects.filter(user=user).exists():
             pass
         else:
             #redirect the user to profile after the login
@@ -300,7 +300,7 @@ class CustomerProfileView(EcomMixin,TemplateView):
         context = super().get_context_data(**kwargs)
         customer = self.request.user.customer
         context['customer'] = customer
-        orders = Order.objects.filter(cart__customer=customer)
+        orders = Order.objects.filter(cart__customer=customer).order_by("-id")
         context['orders'] = orders
         return context
     
@@ -312,8 +312,16 @@ class CustomerOrderDetailView(DetailView):
     # user must be logged in to view the order detail
     def dispatch(self, request, *args, **kwargs):
         user = request.user #user currently logged in
-        if user.is_authenticated and user.customer:
-            pass
+        if user.is_authenticated and Customer.objects.filter(user=user).exists():
+            # obj to filter customer obj
+            order_id = self.kwargs["pk"]
+            order = Order.objects.get(id=order_id)
+            # check if the customer is the owner of the order
+            if request.user.customer != order.cart.customer:
+                return redirect("shop:profile")
+
+            #conditon to show orders of a specific customer
+                     
         else:
             #redirect the user to profile after the login
             return redirect("/login/?next=/profile/")
@@ -327,3 +335,46 @@ class AboutView(EcomMixin,TemplateView):
 
 class ContactView(EcomMixin,TemplateView):
     template_name="shop/contactus.html"
+#================================Admin============
+# Mixin to avoid repeating the dispatch method
+
+class AdminRequiredMixin(object):
+    def dispatch(self, request, *args, **kwargs):
+        user = request.user #user currently logged in
+        if user.is_authenticated and Admin.objects.filter(user=user).exists():
+            pass
+        else:
+            #redirect the user to profile after the login
+            return redirect("/admin_login/")
+
+        return super().dispatch(request, *args, **kwargs)
+
+class AdminLoginView(FormView):
+    template_name="admin/admin_login.html"
+    form_class = AdminLoginForm
+    success_url = reverse_lazy("shop:admin_home")
+
+    def form_valid(self, form):
+        uname = form.cleaned_data.get("username")
+        pwd = form.cleaned_data["password"]
+
+        user_val = authenticate(username=uname, password=pwd) 
+        if user_val is not None and Admin.objects.filter(user=user_val).exists():
+            login(self.request, user_val)
+        else:
+            return render(self.request, self.template_name, 
+            {"form": self.form_class, "error":"Invalid Credentials"})
+        return super().form_valid(form)
+
+class AdminHomeView(AdminRequiredMixin, EcomMixin,TemplateView):
+    template_name="admin/admin_home.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["pendingorders"] = Order.objects.filter(order_status="Order Recieved").order_by("-id")
+        return context
+    
+class AdminOrderDetailView(AdminRequiredMixin, DetailView):
+    template_name="admin/admin_order_detail.html"
+    model = Order
+    context_object_name = "order_obj"
