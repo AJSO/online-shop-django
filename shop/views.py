@@ -4,9 +4,9 @@ from django.contrib.auth import authenticate, login,logout
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormView
 from .forms import CheckoutForm, CustomerRegistrationForm,CustomerLoginForm,AdminLoginForm
-from .models import Cart, CartProduct, Category, Customer, Order, Product, Admin
+from .models import Cart, CartProduct, Category, Customer, ORDER_STATUS, Order, Product, Admin
 from django.shortcuts import redirect, render
-from django.views.generic import View, TemplateView, CreateView
+from django.views.generic import View, TemplateView, CreateView, ListView
 from django.urls import reverse_lazy
 
 
@@ -378,3 +378,32 @@ class AdminOrderDetailView(AdminRequiredMixin, DetailView):
     template_name="admin/admin_order_detail.html"
     model = Order
     context_object_name = "order_obj"
+
+    # gettingthe options
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["allstatus"] = ORDER_STATUS
+        return context
+    
+
+
+class AdminOrderListView(AdminRequiredMixin, ListView):
+    template_name="admin/admin_order_list.html"
+    queryset = Order.objects.all().order_by("-id")
+    context_object_name = "all_orders"
+
+class AdminLogoutView(View):
+    def get(self, request):
+        logout(request)
+        return redirect("shop:admin_login")
+
+class AdminOrderStatusChangeView(View):
+    def post(self, request, *args, **kwargs):
+        order_id = self.kwargs["pk"]
+        order_obj = Order.objects.get(id=order_id)
+        new_status = request.POST.get("status")
+# change the order object
+        order_obj.order_status = new_status
+        order_obj.save()
+
+        return redirect(reverse_lazy("shop:admin_order_detail",kwargs={"pk":order_id}))

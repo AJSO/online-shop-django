@@ -26,6 +26,11 @@ urlpatterns = [
     path('profile/order-<int:pk>/', CustomerOrderDetailView.as_view(), name='order_detail'),
 
     path('admin_login/', AdminLoginView.as_view(), name='admin_login'),
+    path('admin_all_orders/', AdminOrderListView.as_view(), name='all_orders'),
     path('admin_home/', AdminHomeView.as_view(), name='admin_home'),
     path('admin_order/<int:pk>/', AdminOrderDetailView.as_view(), name='admin_order_detail'),
+    path('admin_logout/', AdminLogoutView.as_view(), name='admin_logout'),
+
+
+    path('admin_order_<int:pk>-change/', AdminOrderStatusChangeView.as_view(), name='order_status_change'),
 ]

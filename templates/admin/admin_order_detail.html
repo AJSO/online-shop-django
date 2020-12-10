@@ -14,6 +14,21 @@
     <p><span class="font-weight-bold">Mobile:</span>{{order_obj.mobile}}</p>
     <p><span class="font-weight-bold">Address:</span>{{order_obj.shipping_address}}</p>
 
+    <form action="{% url 'shop:order_status_change' order_obj.id %}" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for=""></label>
+      <select class="form-control" name="status" id="">
+      {% comment %} implementing tuple here{% endcomment %}
+        {% comment %} implementing tuple here{% endcomment %}
+        {% for i,j in allstatus %}
+        <option value="{{i}}" {% if i == order_obj.order_status %}selected{% endif %}>{{j}}</option>
+        {% endfor %}
+      </select>
+      
+    </div>
+    <button class="btn btn-info">Change Status</button>    
+    </form>
     </div>
     <div class="col-md-8">
     <h3>Ordered Items.</h3><hr/>
