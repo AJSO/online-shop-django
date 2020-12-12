@@ -28,4 +28,4 @@ This simple online shopping boiler plate covers vast topics in django. Class-bas
       -Customer reset password functionality
   
 
-And so much more to be included at a later stage. Using bootstrap4 for our css styling. Feel free to check out the viedeo tutorial at [Video Tutorial](https://www.youtube.com/playlist?list=PLPugx1RzUWEVOyqPf3N2EnadRppyi4Cpy). Thanks to [Dipak Niroula](https://www.youtube.com/c/sangitniroula).⋅⋅
+And so much more to be included at a later stage. Using bootstrap4 for our css styling. Feel free to check out the viedeo tutorial at [Video Tutorials](https://www.youtube.com/playlist?list=PLPugx1RzUWEVOyqPf3N2EnadRppyi4Cpy). Thanks to [Dipak Niroula](https://www.youtube.com/c/sangitniroula).⋅⋅
