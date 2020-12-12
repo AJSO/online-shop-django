@@ -1,19 +1,19 @@
 # online-shop-django
 
-⋅⋅⋅This simple online shopping boiler plate covers vast topics in django. Class-based views are explicitly broken down using several helps.⋅⋅ 
+This simple online shopping boiler plate covers vast topics in django. Class-based views are explicitly broken down using several helps.
 
 ## The features of this online shopping project include:
-    **Model Design**
-      ⋅⋅* Category
-      ⋅⋅* Product
-      ⋅⋅* Order
-      ⋅⋅* Customer
-      ⋅⋅* Admin
-      ⋅⋅* Cart
-      ⋅⋅* CartProduct
+    Model Design
+      -Category
+      -Product
+      -Order
+      -Customer
+      -Admin
+      -Cart
+      -CartProduct
 ## Functionalities Include:
-  ⋅⋅* Cart functionality in django
-  ⋅⋅* Manage Cart functionality
+  ⋅⋅*Cart functionality in django
+  ⋅⋅*Manage Cart functionality
   ⋅⋅* Checkout / Place order functionality
   ⋅⋅* Customer login and registration functionality
   ⋅⋅* Login required to checkout functionatility
