@@ -32,8 +32,22 @@
     {% endif %}
     
     </div>
-    
     <hr/>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <form action="{% url 'shop:search' %}" class="form-inline" method="GET">
+                    <div class="form-group">
+                        <label for=""></label>
+                        <input type="text" name="keyword" id="" class="form-control" placeholder="Search Product Here..." required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Search</i></button>
+                </form>
+    
+            </div>
+        </div>
+    </div>
     {% block  content %}
     {% endblock %}
         <!--[if lt IE 7]>

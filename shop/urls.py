@@ -33,4 +33,7 @@ urlpatterns = [
 
 
     path('admin_order_<int:pk>-change/', AdminOrderStatusChangeView.as_view(), name='order_status_change'),
+
+
+    path('search/', SearchView.as_view(), name='search'),
 ]

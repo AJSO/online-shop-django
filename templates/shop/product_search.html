@@ -1,0 +1,27 @@
+{% extends 'shop/base.html' %}
+{% block title %}Search Product{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+            <h3>Search Results for <span class="text-info">'{{request.GET.keyword}}'</span></h3>
+            <hr/>
+            <div class="row mt-4">
+            {% for rs in result %}
+            <div class="col-md-3"> 
+                <div class="mt-3"> 
+                        <h3><a href="{% url 'shop:products_detail' rs.slug %}">{{rs.title}}</a></h3>
+                        <img src="{{rs.image.url}}" alt='' class="img-fluid" style="height:250; object-fit:cover;" />
+                        <br/>
+                        <p class="mt-3">{{rs.description|truncatewords:10}}</p>
+                        <p class="mt-3">Price: Shs.<s>{{rs.marked_price}}</s> Shs.{{rs.selling_price}}</p>
+                        <a href="{% url 'shop:addtocart' rs.id %}" class="btn btn-primary">Add to Cart</a>
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
+            </div>
+        </div>    
+    </div>
+    {% endblock content %}
+        

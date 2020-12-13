@@ -9,6 +9,8 @@ from django.shortcuts import redirect, render
 from django.views.generic import View, TemplateView, CreateView, ListView
 from django.urls import reverse_lazy
 
+from django.db.models import Q #this Q is for a complete search
+
 
 class EcomMixin(object):
     def dispatch(self, request, *args, **kwargs):
@@ -407,3 +409,15 @@ class AdminOrderStatusChangeView(View):
         order_obj.save()
 
         return redirect(reverse_lazy("shop:admin_order_detail",kwargs={"pk":order_id}))
+
+class SearchView(TemplateView):
+    template_name="shop/product_search.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # kw is a variable to store the keyword
+        kw = self.request.GET["keyword"] #dictionary, we can also do - kw = self.request.GET.get("keyword")
+        results = Product.objects.filter(Q(title__icontains=kw) | Q(description__icontains=kw)) #i ignores the case sensitivity of the text.
+        context["result"] = results
+
+        return context
