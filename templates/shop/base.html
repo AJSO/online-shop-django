@@ -16,7 +16,43 @@
     </head>
     <body>
     <div class="container">
-    <a href="/">Home</a> |
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="/">Shop</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'shop:about' %}">About</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'shop:contact' %}">Contact Us</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'shop:all_products' %}">All Product</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'shop:mycart' %}">Cart</a>
+      </li>
+
+      {% if request.user.customer %}
+      <li class="nav-item">
+        <a class="nav-link">Welcome - {{request.user.username}}! </a></li> 
+        <li class="nav-item">
+        <a class="nav-link" href="{% url 'shop:logout' %}">LogOut</a> </li> 
+        <li class="nav-item">
+        <a class="nav-link" href="{% url 'shop:profile' %}">My Profile</a></li> 
+        {% else %}
+        <li class="nav-item">
+        <a class="nav-link" href="{% url 'shop:newUser' %}">Register</a> </li>
+        <li class="nav-item">
+        <a class="nav-link" href="{% url 'shop:login' %}">Login</a></li>
+        {% endif %}
+    </ul>
+  </div>
+</nav>
+    {% comment %} <a href="/">Home</a> |
     <a href="{% url 'shop:about' %}">About</a> |
     <a href="{% url 'shop:contact' %}">Contact Us</a> |
     <a href="{% url 'shop:all_products' %}">All Products</a> |
@@ -29,13 +65,13 @@
     {% else %}
     <a href="{% url 'shop:newUser' %}">Register</a> |
     <a href="{% url 'shop:login' %}">Login</a>
-    {% endif %}
+    {% endif %} {% endcomment %}
     
     </div>
-    <hr/>
-    <div class="container">
+    
+    <div class="container" style="padding:10px; ">
         <div class="row">
-            <div class="col-md-6 mx-auto">
+            <div class="col-md-4 mx-auto">
                 <form action="{% url 'shop:search' %}" class="form-inline" method="GET">
                     <div class="form-group">
                         <label for=""></label>

@@ -1,3 +1,4 @@
+from django.core import paginator
 from django.http import request
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login,logout
@@ -8,6 +9,8 @@ from .models import Cart, CartProduct, Category, Customer, ORDER_STATUS, Order, 
 from django.shortcuts import redirect, render
 from django.views.generic import View, TemplateView, CreateView, ListView
 from django.urls import reverse_lazy
+
+from django.core.paginator import Paginator
 
 from django.db.models import Q #this Q is for a complete search
 
@@ -31,9 +34,15 @@ class HomeView(EcomMixin,TemplateView):
     # getting all items from the database
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        all_product = Product.objects.all().order_by('-id')
+        
+        # number of item to display
+        paginator = Paginator(all_product, 4)
+        page_number = self.request.GET.get("page")
+        product_list = paginator.get_page(page_number)
+
         # returns all item from the products schema
-        context['product_list'] = Product.objects.all().order_by('-id') #showing the latest item
-        # display categories
+        context['product_list'] = product_list #showing the latest item
         context['list_cat'] = Category.objects.all()
         return context
 

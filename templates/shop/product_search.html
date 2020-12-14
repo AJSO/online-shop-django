@@ -8,7 +8,7 @@
             <hr/>
             <div class="row mt-4">
             {% for rs in result %}
-            <div class="col-md-3"> 
+            <div class="col-md-3 card"> 
                 <div class="mt-3"> 
                         <h3><a href="{% url 'shop:products_detail' rs.slug %}">{{rs.title}}</a></h3>
                         <img src="{{rs.image.url}}" alt='' class="img-fluid" style="height:250; object-fit:cover;" />
