@@ -1,6 +1,6 @@
 # online-shop-django
 
-This simple online shopping boiler plate covers vast topics in django. Class-based views are explicitly broken down using several helps.
+This simple online shopping boiler plate covers vast topics in django. Class-based views are explicitly broken down.
 
 ## The features of this online shopping project include:
     Model Design
